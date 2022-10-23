@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "acmhelper"
+version = "0.1.0"
+description = "The helper for Acmer"
+authors = ["CherryGS <tickten@outlook.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.scripts]
+helper = "AcmHelper.cli.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = {extras = ["all"], version = "^0.6.1"}
+loguru = "^0.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

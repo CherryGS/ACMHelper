@@ -8,30 +8,40 @@ type_weight = float | int
 
 class Edge:
     def __init__(self, u: int, v: int, w: type_weight = 0) -> None:
-        """
-        u : 起点
-        v : 终点
-        w : 权值参数
+        """Edge initialization
+
+        Args:
+            u (int): start
+            v (int): end
+            w (type_weight, optional): edge weight. Defaults to 0.
         """
         self.u = u
         self.v = v
         self.w = w
-        self.nxt: Self = self  # 前向星的下一个节点
     
     def __repr__(self) -> str:
         return f"{self.u} {self.v} {self.w}"
 
 
 class BaseGraph:
-    """所有无自环无重边的图的基本架构"""
+    """A (weakly) connected graph with no self-loop and multiple edge"""
     def __init__(self, n: int, m: int, directed: bool = False, weighed: bool = False) -> None:
         """
-        节点编号从 1 开始
-        n : 节点个数
-        m : 边个数
-        directed : 是否是有向图(仅决定 render 工作方式)
-        weighed : 是否是赋权图(仅决定 render 工作方式)
+        ! DO NOT USE IT DIRECTLY.
+        
+        Graph initialization. Vertex start from 1.
+
+        Args:   
+            n (int): vertex num
+            m (int): edge num
+            directed (bool, optional): directed graph. Defaults to False.
+            weighed (bool, optional): weighted graph. Defaults to False.
+            
+        Raises:
+            ValueError: Improper number of vertex or edge.
         """
+        if n > m+1:
+            raise ValueError("Improper number of vertex or edge.")
         self.n = n
         self.m = m
         self.weighed = weighed
@@ -48,9 +58,16 @@ class BaseGraph:
         return self.edgeList.__iter__()
     
     def render(self, path: Path|str = '.'):
+        """Render the graph using Graphviz.
+
+        Args:
+            path (Path | str, optional): image output path. Defaults to '.'.
+
+        Raises:
+            ValueError: limit the size of the graph.
+        """
         if self.n > 100 or self.m > 200:
-            print("图过大 , 不生成")
-            return
+            raise ValueError("The graph is too big.")
         if type(path) == str:
             path = Path(path)
         graph = Digraph if self.directed else Graph
@@ -66,10 +83,21 @@ class BaseGraph:
         dot.render(directory=path, format='png')
     
     def gen_weight(self, min_value: int = 0, max_value: int = 1):
+        """Generate edge weight between [min_value,max_value]
+
+        Args:
+            min_value (int, optional): min value. Defaults to 0.
+            max_value (int, optional): max value. Defaults to 1.
+            
+        Raises:
+            ValueError: Graph is already generated.
+        """
         if self.weighed:
             for i in self.edgeList:
                 i.w = randint(min_value, max_value)
     
     def gen_edge(self):
+        if len(self.edgeList) != 0:
+            raise ValueError("Graph is already generated.")
         raise NotImplementedError()
             

@@ -12,29 +12,33 @@
     - interactor.cpp (optional with "testlib.h")
     - validator.cpp (optional with "testlib.h")
     - generator
-        - test1.cpp
-        - test2.py
+        - make1.cpp
+        - make2.py
     - accept
-        - code1.cpp
-        - code2.py
+        - ac1.cpp
+        - ac2.py
     - wrong
-        - code3.cpp
-        - code4.py
+        - wa1.cpp
+        - wa2.py
+    - exec
+        - something executable...
     - data
         - auto
             - in
-                - 1.in
+                - 1.make1.in
+                - 2.make2.in
             - out
-                - 1.out
-            - wa
-                - 1_test.wa
-        - hand
+                - 1.ac1.out
+                - 1.wa1.out
+        - save
             - in
-                - 1.in
+                - 1.make1.in
+                - 2.make2.in
             - out
-                - 1.out
-            - wa
-                - 1_test.wa
+                - 1.ac1.out
+                - 1.wa1.out
     - log
         - 20220303-13:03:03.log
+    - temp
+        - someting temporary...
 ```

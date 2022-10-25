@@ -56,7 +56,7 @@ un vn wn
 
 查看 `test.png` , 应该如下所示
 
-![test](test.png)
+![test](Assert/test.png)
 
 具体的设置请使用 `helper render --help` 查看
 
@@ -277,7 +277,7 @@ int main(int argc,char** argv) {
 
 如果字体和终端合适 , 你应该会看到像这样的东西
 
-![result](table.png)
+![result](Assert/table.png)
 
 不出意料地 , 两个不对的程序在合适的地方不对了.
 

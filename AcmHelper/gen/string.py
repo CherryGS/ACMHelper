@@ -43,6 +43,7 @@ class String:
         if lim is None:
             lim = randint(1, len(self.sigma))
         lim = min(lim, len(self.sigma))
+        lim = max(1, lim)
         s = "".join(sample(self.sigma, lim))
         c = self._random(int(n / 2), s)
         if n % 2 == 1:
@@ -54,6 +55,7 @@ class String:
         if lim is None:
             lim = randint(1, len(self.sigma))
         lim = min(lim, len(self.sigma))
+        lim = max(1, lim)
         s = "".join(sample(self.sigma, lim))
         return self._random(n, s)
 

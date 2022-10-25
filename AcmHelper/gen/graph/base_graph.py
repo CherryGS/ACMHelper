@@ -57,7 +57,7 @@ class BaseGraph:
     def iterator_edge(self) -> Iterator[Edge]:
         return self.edgeList.__iter__()
     
-    def render(self, path: Path|str = '.'):
+    def render(self, path: Path|str = '.', name: str = 'Graph'):
         """Render the graph using Graphviz.
 
         Args:
@@ -71,7 +71,7 @@ class BaseGraph:
         if type(path) == str:
             path = Path(path)
         graph = Digraph if self.directed else Graph
-        dot = graph('Graph', 'Rendered by Graphviz')
+        dot = graph(name, 'Rendered by Graphviz')
         for i in range(1, self.n+1):
             dot.node(str(i))
         if self.weighed:
@@ -80,7 +80,7 @@ class BaseGraph:
         else:
             for i in self.edgeList:
                 dot.edge(str(i.u), str(i.v))
-        dot.render(directory=path, format='png')
+        dot.render(directory=path, format='png', filename=name)
     
     def gen_weight(self, min_value: int = 0, max_value: int = 1):
         """Generate edge weight between [min_value,max_value]

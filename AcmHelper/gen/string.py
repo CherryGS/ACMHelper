@@ -63,3 +63,6 @@ class String:
         l: list[Callable] = [self._rand, self._paral]
         c = sample(l, 1)[0]
         return c(n)
+
+    def __call__(self, n: int):
+        return self.gen(n)

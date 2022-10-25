@@ -101,6 +101,7 @@ def run(
                     data.w_output(j, res[0])
                     used_time[(i.stem, j.stem)] = res[1]
     info: dict[str, dict[str, int]] = dict()
+    # TODO: Simplify
     for n in range(1, data_cnt):
         d = data_set[n - 1]
         r = d.name.split(".")[1]

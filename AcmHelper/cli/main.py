@@ -19,13 +19,19 @@ def render_graph(
     graph = Digraph if directed else Graph
     dot = graph("Graph", "Rendered by Graphviz")
     n = 0
+    mx = 0
     with open(file, "r") as f:
         for i, j in enumerate(f):
             if ignore and i == 0:
                 n = int(j.split()[0])
                 continue
             lis = j.split()
+            mx = max(mx, int(lis[0]), int(lis[1]))
             dot.edge(*lis)
-    for i in range(1, n+1):
-        dot.node(str(i))
+    if n:
+        for i in range(1, n + 1):
+            dot.node(str(i))
+    else:
+        for i in range(1, mx + 1):
+            dot.node(str(i))
     dot.render(file.stem, format="png", cleanup=clean)

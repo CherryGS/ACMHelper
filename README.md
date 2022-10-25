@@ -268,7 +268,7 @@ int main(int argc,char** argv) {
     "checker": "checker",
     "interactor": "",
     "validator": "",
-    "gcc_version" 17
+    "gcc_version": 17
 }
 ```
 

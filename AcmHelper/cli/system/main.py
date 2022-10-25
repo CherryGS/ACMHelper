@@ -105,6 +105,7 @@ def run(
         d = data_set[n - 1]
         r = d.name.split(".")[1]
         info[d.name] = {}
+        logger.info(f"Running test case {d.name}")
         for i in ac:
             if i.stem not in c.gen_link_code[r]:
                 info[d.name][i.stem] = Status.ignore
@@ -128,7 +129,7 @@ def run(
             res = chc.check(d, i.f_out(n), std.f_out(n), c)
             info[d.name][i.stem] = res[0]
             if strict:
-                if res[0] != Status.passed and res[0] != Status.unpassed:
+                if res[0] == Status.sys_fail:
                     raise ValueError(
                         f"In Test {n}, wrong code got error {Status(res[0]).name}. Info: {res[1]}. "
                     )

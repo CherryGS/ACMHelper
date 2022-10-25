@@ -16,6 +16,7 @@ TODO
 
 - [ ] 使 `helper sys run` 可以执行 `save` 下的数据
 - [ ] 添加对 `Validator` 和 `Interactor` 的支持
+- [ ] 根据 `hash` 动态选择是否编译
 
 ## 简易使用说明
 

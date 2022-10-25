@@ -59,8 +59,9 @@ class MyFile:
                 capture_output=True,
             )
             e = res.stderr
-            if e or res.returncode != 0:
+            if e:
                 print(e) if e else ...
+            if res.returncode != 0:
                 raise ValueError(f"Got err when compiling {file}")
             self.exec_path = exec_path / (file.stem + ".exe")
         else:
@@ -83,8 +84,9 @@ class Runner(MyFile):
         )
         t = perf_counter() - t
         o, e = res.stdout, res.stderr
-        if e or res.returncode != 0:
+        if e:
             print(e) if e else ...
+        if res.returncode != 0:
             raise ValueError(f"Got err when running {self.exec_path}")
         return (o, t)
 
@@ -150,13 +152,16 @@ class IO:
 class Status(IntEnum):
     passed = 0
     unpassed = 1
+    pe = 2
     sys_fail = 3
     tle = 20
     ignore = 21
 
 
 def print_run_status(col: list[str], data: dict[str, dict[str, int]]):
-    table = Table(show_header=True, header_style="bold magenta")
+    table = Table(
+        title="Generation Result", show_header=True, header_style="bold magenta"
+    )
     table.add_column("Test data")
     for i in col:
         table.add_column(i)
@@ -169,10 +174,12 @@ def print_run_status(col: list[str], data: dict[str, dict[str, int]]):
                 lis.append("🟢")
             elif e == Status.unpassed:
                 lis.append("🔴")
+            elif e == Status.pe:
+                lis.append("🔡")
             elif e == Status.tle:
                 lis.append("⛔")
             elif e == Status.ignore:
-                lis.append("🏳️")
+                lis.append("🚫")
             elif e == Status.sys_fail:
                 lis.append("❗")
             else:

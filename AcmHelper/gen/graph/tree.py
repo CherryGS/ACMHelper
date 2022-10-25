@@ -96,11 +96,7 @@ class Tree(BaseGraph):
             self.add_edge(c, i)
 
     def gen_edge(self):
-        """Tree generation.
-
-        Args:
-            c (TreeConfig, optional): Generation config. Defaults to TreeConfig().
-        """
+        """Tree generation."""
 
         l: list[Callable] = [self._binary, self._random_v1, self._random_v2]
         c = sample(l, 1)[0]

@@ -1,13 +1,6 @@
-from dataclasses import dataclass
+from typing import Callable
 from .base_graph import BaseGraph
 from random import randint, sample, random
-
-
-@dataclass
-class TreeConfig:
-    chain: float = 0
-    flower: float = 0
-    foot: float = 0
 
 
 class Tree(BaseGraph):
@@ -21,99 +14,94 @@ class Tree(BaseGraph):
         super().__init__(n, n - 1, True, weighed)
 
     def _random(self, s: int, t: int):
-        """random tree.
+        """random .
 
         Args:
-            s (int): the previous vertex of the starting
+            s (int): start
             t (int): end
         """
-        for v in range(s + 1, t + 1):
+        if s > t:
+            return
+        for v in range(s, t + 1):
             u = randint(1, v - 1)
             self.add_edge(u, v)
 
-    def _chain(self, s: int, t: int):
-        """chain.
+    def _random_v1(self, r: int, s: int, t: int, dep: int | None = None):
+        """random tree.
 
         Args:
-            s (int): the previous vertex of the starting
+            r (int): root
+            s (int): start
             t (int): end
+            mxdep (int): max dep
         """
-        for v in range(s + 1, t + 1):
-            u = v - 1
-            self.add_edge(u, v)
+        if s > t:
+            return
+        if dep is None:
+            dep = randint(2, t - s + 2)
+        c0: set[tuple[int, int]] = {(r, 1)}
+        for i in range(s, t + 1):
+            c = sample(c0, 1)[0]
+            self.add_edge(c[0], i)
+            if c[1] + 1 < dep:
+                c0.add((i, c[1] + 1))
 
-    def _flower(self, s: int, t: int):
-        """flower
+    def _random_v2(self, r: int, s: int, t: int, agg: float | None = None):
+        """random tree.
 
         Args:
-            s (int): the previous vertex of the starting
+            r (int): root
+            s (int): start
             t (int): end
+            agg (float): degree of aggregation
         """
-        u = randint(1, s)
-        for v in range(s + 1, t + 1):
-            self.add_edge(u, v)
+        if s > t:
+            return
+        if agg is None:
+            agg = random()
+        c0 = [[] for _ in range(t - s + 2)]
+        c0[0].append(r)
+        for i in range(s, t + 1):
+            j = 0
+            while j < t - s + 1 and random() > agg and len(c0[j + 1]) > 0:
+                j += 1
+            c = sample(c0[j], 1)[0]
+            self.add_edge(c, i)
+            c0[j + 1].append(i)
 
-    def _foot(self, s: int, t: int):
-        """Graph generated as follows.
-        First generate a chain.
-        Then add a son to each vertex in the chain.
-
-        Args:
-            s (int): the previous vertex of the starting
-            t (int): end
-        """
-        l = t - s
-        for i in range(s + 1, s + int(l / 2 + 0.5) + 1):
-            self.add_edge(i - 1, i)
-        r = s + int(l / 2 + 0.5) + 1
-        for i in range(s, r):
-            if r <= t:
-                self.add_edge(i, r)
-                r = r + 1
-            else:
-                break
-
-    def _binary(self, s: int, t: int):
+    def _binary(self, r: int, s: int, t: int, bal: float | None = None):
         """binary tree.
 
         Args:
+            r (int): root
             s (int): the previous vertex of the starting
             t (int): end
+            bal (float): probability of selecting the left side
         """
-        e = {s: 0}
-        for i in range(s + 1, t + 1):
-            r = sample(e.keys(), 1)[0]
-            self.add_edge(r, i)
-            e[i] = 0
-            e[r] += 1
-            if e[r] == 2:
-                e.pop(r)
+        if s > t:
+            return
+        if bal is None:
+            bal = random()
+        c0 = {r}
+        c1 = set()
+        for i in range(s, t + 1):
+            if (random() <= bal or len(c1) == 0) and len(c0) > 0:
+                c = sample(c0, 1)[0]
+                c1.add(c)
+                c0.remove(c)
+            else:
+                c = sample(c1, 1)[0]
+                c1.remove(c)
+            c0.add(i)
+            self.add_edge(c, i)
 
-    def gen_edge(self, c: TreeConfig = TreeConfig()):
+    def gen_edge(self):
         """Tree generation.
 
         Args:
             c (TreeConfig, optional): Generation config. Defaults to TreeConfig().
         """
 
-        n = self.n
-        sum = 1
-
-        # chain
-        self._chain(sum, sum + int(c.chain * n))
-        sum += int(c.chain * n)
-
-        # flower
-        self._flower(sum, sum + int(c.flower * n))
-        sum += int(c.flower * n)
-
-        # binary
-        self._binary(sum, sum + int(c.flower * n))
-        sum += int(c.flower * n)
-
-        # foot
-        self._foot(sum, sum + int(c.flower * n))
-        sum += int(c.flower * n)
-
-        # random
-        self._random(sum, n)
+        l: list[Callable] = [self._binary, self._random_v1, self._random_v2]
+        c = sample(l, 1)[0]
+        c(1, 2, self.n)

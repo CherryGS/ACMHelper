@@ -48,7 +48,7 @@ un vn wn
 
 查看 `test.png` , 应该如下所示
 
-![test](E:\CherryGS\Project\sample-problem\test.png)
+![test](test.png)
 
 具体的设置请使用 `helper render --help` 查看
 
@@ -271,7 +271,7 @@ int main(int argc,char** argv) {
 
 如果字体和终端合适 , 你应该会看到像这样的东西
 
-![屏幕截图 2022-10-25 193050](E:\DATA\SYSTEM\Desktop\屏幕截图 2022-10-25 193050.png)
+![屏幕截图 2022-10-25 193050](屏幕截图 2022-10-25 193050.png)
 
 不出意料地 , 两个不对的程序在合适的地方不对了.
 

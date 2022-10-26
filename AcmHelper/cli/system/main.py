@@ -109,36 +109,30 @@ def run(
         logger.info(f"Running test case {d.name}")
         for i in ac:
             if i.stem not in c.gen_link_code[r]:
-                info[d.name][i.stem] = Status.ignore
+                info[d.name][i.stem] = Status._ign
                 continue
             res = chc.check(d, i.f_out(n), std.f_out(n), c)
             info[d.name][i.stem] = res[0]
             if strict:
-                if res[0] != Status.passed:
+                if res[0] != Status._ok:
                     raise ValueError(
                         f"In Test {n}, accept code got error {Status(res[0]).name}. Info: {res[1]}. "
                     )
-            if (
-                res[0] == Status.passed
-                and used_time.get((r, i.stem), 0) >= c.time_limit
-            ):
-                info[d.name][i.stem] = Status.tle
+            if res[0] == Status._ok and used_time.get((r, i.stem), 0) >= c.time_limit:
+                info[d.name][i.stem] = Status._tle
         for i in wa:
             if i.stem not in c.gen_link_code[r]:
-                info[d.name][i.stem] = Status.ignore
+                info[d.name][i.stem] = Status._ign
                 continue
             res = chc.check(d, i.f_out(n), std.f_out(n), c)
             info[d.name][i.stem] = res[0]
             if strict:
-                if res[0] == Status.sys_fail:
+                if res[0] == Status._fail:
                     raise ValueError(
                         f"In Test {n}, wrong code got error {Status(res[0]).name}. Info: {res[1]}. "
                     )
-            if (
-                res[0] == Status.passed
-                and used_time.get((r, i.stem), 0) >= c.time_limit
-            ):
-                info[d.name][i.stem] = Status.tle
+            if res[0] == Status._ok and used_time.get((r, i.stem), 0) >= c.time_limit:
+                info[d.name][i.stem] = Status._tle
     logger.info("Rendering the result...")
     if table:
         print_run_status([i.stem for i in chain(ac, wa)], info)

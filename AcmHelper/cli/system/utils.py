@@ -150,12 +150,16 @@ class IO:
 
 
 class Status(IntEnum):
-    passed = 0
-    unpassed = 1
-    pe = 2
-    sys_fail = 3
-    tle = 20
-    ignore = 21
+    _ok = 0
+    _wa = 1
+    _pe = 2
+    _fail = 3
+    _dirt = 4
+    _points = 5
+    _unexpected_eof = 8
+    _partially = 16
+    _tle = 20
+    _ign = 21
 
 
 def print_run_status(col: list[str], data: dict[str, dict[str, int]]):
@@ -170,17 +174,17 @@ def print_run_status(col: list[str], data: dict[str, dict[str, int]]):
         lis = [i]
         for j in r:
             e = data[i][j]
-            if e == Status.passed:
+            if e == Status._ok:
                 lis.append("🟢")
-            elif e == Status.unpassed:
+            elif e == Status._wa:
                 lis.append("🔴")
-            elif e == Status.pe:
+            elif e == Status._pe:
                 lis.append("🔡")
-            elif e == Status.tle:
+            elif e == Status._tle:
                 lis.append("⛔")
-            elif e == Status.ignore:
+            elif e == Status._ign:
                 lis.append("🚫")
-            elif e == Status.sys_fail:
+            elif e == Status._fail:
                 lis.append("❗")
             else:
                 lis.append("❓")

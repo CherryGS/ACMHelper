@@ -7,7 +7,8 @@
 - 快速创建具有合理结构的题目文件夹
 - 指定 `std` , `checker` , `validator` , `interactor` 
 - 使用不同语言完成不同部分 (cpp/py)
-- 使用额外的程序来测试数据的质量
+- 使用 `testlib.h` 编写 `checker.cpp` , `generator.cpp` , ...
+- 添加额外的程序来测试数据的质量
 - 使用预制的数据生成器快速生成具有某些特征的数据 (py)
 - 同时使用多种数据生成器 , 并可以指定每个程序所接受的生成器
 - 享受由 `rich` , `typer`, `loguru` 带来的美丽
@@ -17,6 +18,8 @@ TODO
 - [ ] 使 `helper sys run` 可以执行 `save` 下的数据
 - [ ] 添加对 `Validator` 和 `Interactor` 的支持
 - [ ] 根据 `hash` 动态选择是否编译
+- [ ] 将部分设置的修改加入 CLI 中
+- [ ] 预制一些常见的 **hack** `checker` 的代码
 
 ## 简易使用说明
 
@@ -58,6 +61,8 @@ try:
 except:
     pass
 ```
+
+**可自定义参数的生成方式请查看源码**
 
 ### 快速从数据文件得到渲染的图
 
@@ -319,3 +324,7 @@ int main(int argc,char** argv) {
 然后输入 `helper sys output checker.cc` , 查看 `output` 文件夹下 , 你应该可以看到名为 `data.zip` 的文件 , 其中的所有文件都被合适的重命名了 , 特殊的 , `checker` 被重命名为了 `checker.cc`
 
 更细节的使用请参考 `helper sys --help` , `helper sys add --help` 等
+
+---
+
+![全家福](Assert/全家福.png)

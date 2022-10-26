@@ -24,6 +24,7 @@ TODO
 ## 简易使用说明
 
 得益于 `typer` , 关于题目生成的功能都可以通过输入 `helper --help` 大致了解
+Win系推荐使用 `Windows terminal` 搭配字体 `MesloLGL Nerd Font Mono`
 
 ### 安装
 

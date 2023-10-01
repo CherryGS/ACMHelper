@@ -7,12 +7,10 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.scripts]
-helper = "AcmHelper.cli.main:app"
+acm = "AcmHelper.cli.main:app"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-typer = {extras = ["all"], version = "^0.6.1"}
-loguru = "^0.6.0"
+python = "^3.11"
 
 
 [build-system]

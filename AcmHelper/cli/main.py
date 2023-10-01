@@ -16,6 +16,7 @@ def render_graph(
     clean: bool = typer.Option(False, "--clean", "-c", help="Clean the temp file."),
 ):
     """Render the graph from file by Graphviz."""
+    # TODO: Rename vertex
     graph = Digraph if directed else Graph
     dot = graph("Graph", "Rendered by Graphviz")
     n = 0
